@@ -4,3 +4,9 @@ C:\Users\hogarth45\Documents\Programming\Clark\Clark.Crawler\bin\Debug\Clark.Cra
 C:\Users\hogarth45\Documents\Programming\Clark\Clark.Crawler\bin\Debug\HtmlAgilityPack.dll
 C:\Users\hogarth45\Documents\Programming\Clark\Clark.Crawler\obj\Debug\Clark.Crawler.dll
 C:\Users\hogarth45\Documents\Programming\Clark\Clark.Crawler\obj\Debug\Clark.Crawler.pdb
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Crawler\bin\Debug\Clark.Crawler.dll
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Crawler\bin\Debug\Clark.Crawler.pdb
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Crawler\bin\Debug\HtmlAgilityPack.dll
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Crawler\obj\Debug\Clark.Crawler.csprojResolveAssemblyReference.cache
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Crawler\obj\Debug\Clark.Crawler.dll
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Crawler\obj\Debug\Clark.Crawler.pdb

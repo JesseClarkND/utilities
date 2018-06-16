@@ -48,6 +48,10 @@ namespace Clark.Crawler.Utilities
 
                 request.Response.Body = httpBody;
             }
+            catch (WebException we)
+            {
+                //sequester
+            }
             catch (Exception e)
             {
                 request.Response.Error = true;
