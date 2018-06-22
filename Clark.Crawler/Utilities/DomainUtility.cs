@@ -26,6 +26,25 @@ namespace Clark.Crawler.Utilities
             return newURL;
         }
 
+        static public string EnsureProtocol(string url)
+        {
+            if (url.StartsWith("http"))
+                return url;
+                       
+            return "http://"+url;
+        }
+
+        static public string StripProtocol(string url)
+        {
+            if (url.StartsWith("http://"))
+                return url.Substring(7, url.Length - 7);
+
+            if (url.StartsWith("https://"))
+                return url.Substring(8, url.Length - 8);
+
+            return url;
+        }
+
         static public string GetDomainFromUrl(string Url)
         {
             try
