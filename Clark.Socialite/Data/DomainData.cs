@@ -10,6 +10,7 @@ namespace Clark.Socialite.Data
     {
         public string DomainName;
         public List<string> IgnorePhrases;
+        public List<string> UserNames;
 
         public DomainData(string domainName)
         {

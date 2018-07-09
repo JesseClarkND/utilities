@@ -6,13 +6,17 @@ using System.Threading.Tasks;
 
 namespace Clark.Socialite.Data
 {
-    public enum CommonDomains
+
+    public static class Common
     {
-        Facebook,
-        Twitter,
-        Pintrist,
-        Youtube,
-        Instagram,
-        LinkedIn
+        public static List<DomainData> CommonDomainData = new List<DomainData>() 
+        {
+            new DomainData("facebook.com", new List<string>(){ "iframe", "share", "pages", "search"}),
+            new DomainData("twitter.com", new List<string>(){ "iframe", "intent", "statuses", "status"}),
+            new DomainData("pintrist.com", new List<string>(){ "iframe", "pin/create"}),
+            new DomainData("youtube.com", new List<string>(){ "iframe", "watch"}),
+            new DomainData("instagram.com", new List<string>(){ "iframe"}),
+            new DomainData("linkedin.com", new List<string>(){ "iframe"}),
+        };
     }
 }
