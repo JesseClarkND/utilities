@@ -37,7 +37,7 @@ namespace Clark.Crawler.Utilities
                 }
                 else
                 {
-                    readStream = new StreamReader(stream, Encoding.GetEncoding(httpResponse.CharacterSet));
+                    readStream = new StreamReader(stream, Encoding.GetEncoding(httpResponse.CharacterSet.Replace("\\", String.Empty).Replace("\"",String.Empty)));
                 }
 
                 request.Response.Code = ((int)httpResponse.StatusCode).ToString();

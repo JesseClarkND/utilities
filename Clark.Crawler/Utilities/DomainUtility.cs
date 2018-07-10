@@ -20,7 +20,7 @@ namespace Clark.Crawler.Utilities
             }
             else
             {
-                newURL = "htps://" + url;
+                newURL = "https://" + url;
             }
 
             return newURL;
@@ -45,11 +45,11 @@ namespace Clark.Crawler.Utilities
             return url;
         }
 
-        static public string GetDomainFromUrl(string Url)
+        static public string GetDomainFromUrl(string url)
         {
             try
             {
-                return GetDomainFromUrl(new Uri(Url));
+                return GetDomainFromUrl(new Uri(DomainUtility.EnsureHTTPS(url)));
             }
             catch
             {
