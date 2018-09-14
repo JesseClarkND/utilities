@@ -13,10 +13,10 @@ namespace Clark.Socialite.Data
         {
             new DomainData("facebook.com", new List<string>(){ "iframe", "share", "pages", "search"}),
             new DomainData("twitter.com", new List<string>(){ "iframe", "intent", "statuses", "status"}),
-            new DomainData("pintrist.com", new List<string>(){ "iframe", "pin/create"}),
+         //   new DomainData("pintrist.com", new List<string>(){ "iframe", "pin/create"}),
             new DomainData("youtube.com", new List<string>(){ "iframe", "watch"}),
-            new DomainData("instagram.com", new List<string>(){ "iframe"}),
-            new DomainData("linkedin.com", new List<string>(){ "iframe"}),
+            new DomainData("instagram.com", new List<string>(){ "iframe", "instagram.com/p/"}),
+          //  new DomainData("linkedin.com", new List<string>(){ "iframe"}),
         };
     }
 }
