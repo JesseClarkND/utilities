@@ -1,8 +1,11 @@
-﻿using Clark.ContentScanner.Utility;
+﻿using Clark.Common.Models;
+using Clark.Common.Utility;
+using Clark.ContentScanner.Utility;
 using HtmlAgilityPack;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -50,8 +53,8 @@ namespace Clark.ContentScanner
                 //    if (!foundUrls.ContainsKey(foundURL))
                 //    {
 
-                WebRequest request = new WebRequest(DomainUtility.EnsureHTTPS(foundURL));
-                WebRequestUtility.GetWebText(request);
+                WebPageRequest request = new WebPageRequest(DomainUtility.EnsureHTTPS(foundURL));
+                WebPageLoader.Load(request);
                 if (!request.Response.Code.Equals("200"))
                     return true;
                  //       else if (!returnOnlyNone200)

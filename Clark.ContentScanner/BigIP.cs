@@ -1,4 +1,6 @@
-﻿using Clark.ContentScanner.Utility;
+﻿using Clark.Common.Models;
+using Clark.Common.Utility;
+using Clark.ContentScanner.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,12 +13,12 @@ namespace Clark.ContentScanner
     {
         public static bool Check(string domain)
         {
-            WebRequest request = new WebRequest(domain.Trim('/')+"/my.policy");
-            WebRequestUtility.GetWebText(request);
+            WebPageRequest request = new WebPageRequest(domain.Trim('/') + "/my.policy");
+            WebPageLoader.Load(request);
             if (request.Response.Code.Equals("200"))
             {
-                WebRequest compareRequest = new WebRequest(domain.Trim('/') + "/asfasdfasdf");
-                WebRequestUtility.GetWebText(compareRequest);
+                WebPageRequest compareRequest = new WebPageRequest(domain.Trim('/') + "/asfasdfasdf");
+                WebPageLoader.Load(compareRequest);
                 if (request.Response.Body != compareRequest.Response.Body)
                     return true;
             }

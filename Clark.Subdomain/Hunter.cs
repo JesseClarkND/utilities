@@ -1,4 +1,6 @@
-﻿using Clark.Subdomain.Utility;
+﻿using Clark.Common.Models;
+using Clark.Common.Utility;
+using Clark.Subdomain.Utility;
 using HtmlAgilityPack;
 using System;
 using System.Collections.Generic;

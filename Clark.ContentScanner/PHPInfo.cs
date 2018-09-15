@@ -1,4 +1,6 @@
-﻿using Clark.ContentScanner.Utility;
+﻿using Clark.Common.Models;
+using Clark.Common.Utility;
+using Clark.ContentScanner.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,10 +22,10 @@ namespace Clark.ContentScanner
             foreach (string fileName in _fileNames)
             {
                 string testedFile = domain.Trim('/') + "/" + fileName;
-                WebRequest request = new WebRequest(testedFile);
-                WebRequestUtility.GetWebText(request);
-                if(Check_Contents(request.Response.Body))
-                    return testedFile
+                WebPageRequest request = new WebPageRequest(testedFile);
+                WebPageLoader.Load(request);
+                if (Check_Contents(request.Response.Body))
+                    return testedFile;
             }
             return "";
         }
@@ -47,6 +49,7 @@ namespace Clark.ContentScanner
         {
             _fileNames.Add("phpinfo.php");
             _fileNames.Add("info.php");
+            _fileNames.Add("phpinfo.html");
 
             _fingerPrints.Add("<title>phpinfo()</title>");
             _fingerPrints.Add("PHP Version");

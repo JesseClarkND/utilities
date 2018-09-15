@@ -6,7 +6,13 @@ using System.Threading.Tasks;
 
 namespace Clark.Common.Models
 {
-    class WebPageResponse
+    public class WebPageResponse
     {
+        public string Body = "";
+        public Dictionary<string, string> Scripts = new Dictionary<string, string>();
+        public bool TimeOut = false;
+        public string Message = "";
+        public bool NotFound = false;
+        public string Code = "";
     }
 }

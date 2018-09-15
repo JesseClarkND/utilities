@@ -58,7 +58,21 @@ namespace Clark.ContentScanner
             _domainList.Add(new Domain()
             {
                 Engine = "JBoss",
-                Fingerprints = new List<string>() { "Welcome to JBoss" },
+                Fingerprints = new List<string>() { "<title>Welcome to JBoss Application Server" },
+                Reference = ""
+            });
+
+            _domainList.Add(new Domain()
+            {
+                Engine = "Apache Tomcat",
+                Fingerprints = new List<string>() { "<title>Apache Tomcat</title>" },
+                Reference = ""
+            });
+
+            _domainList.Add(new Domain()
+            {
+                Engine = "Apache",
+                Fingerprints = new List<string>() { "<title>Apache HTTP Server Test Page" },
                 Reference = ""
             });
         }

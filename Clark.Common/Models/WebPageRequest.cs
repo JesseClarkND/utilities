@@ -6,7 +6,15 @@ using System.Threading.Tasks;
 
 namespace Clark.Common.Models
 {
-    class WebPageRequest
+    public class WebPageRequest
     {
+        public WebPageRequest() { }
+        public WebPageRequest(string address)
+        {
+            Address = address;
+        }
+
+        public string Address = "";
+        public WebPageResponse Response = new WebPageResponse();
     }
 }
