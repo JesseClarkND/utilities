@@ -53,7 +53,7 @@ namespace Clark.ContentScanner
                 //    if (!foundUrls.ContainsKey(foundURL))
                 //    {
 
-                WebPageRequest request = new WebPageRequest(DomainUtility.EnsureHTTPS(foundURL));
+                WebPageRequest request = new WebPageRequest(DomainUtility.EnsureHTTPS(foundURL).ToLower());
                 WebPageLoader.Load(request);
                 if (!request.Response.Code.Equals("200"))
                     return true;
@@ -124,7 +124,7 @@ namespace Clark.ContentScanner
                 new DomainData("facebook.com", new List<string>(){ "iframe", "share", "pages", "search"}),
                 new DomainData("twitter.com", new List<string>(){ "iframe", "intent", "statuses", "status", "/search"}),
              //   new DomainData("pintrist.com", new List<string>(){ "iframe", "pin/create"}),
-                new DomainData("youtube.com", new List<string>(){ "iframe", "watch", "embed"}),
+                new DomainData("youtube.com", new List<string>(){ "iframe", "watch", "embed", "channel"}),
                 new DomainData("instagram.com", new List<string>(){ "iframe", "instagram.com/p/"}),
               //  new DomainData("linkedin.com", new List<string>(){ "iframe"}),
             };

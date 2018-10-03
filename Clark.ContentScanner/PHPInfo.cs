@@ -50,6 +50,8 @@ namespace Clark.ContentScanner
             _fileNames.Add("phpinfo.php");
             _fileNames.Add("info.php");
             _fileNames.Add("phpinfo.html");
+            _fileNames.Add("php.php");
+            _fileNames.Add("pi.php");
 
             _fingerPrints.Add("<title>phpinfo()</title>");
             _fingerPrints.Add("PHP Version");

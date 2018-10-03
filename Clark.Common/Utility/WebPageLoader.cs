@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Security;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -20,8 +21,20 @@ namespace Clark.Common.Utility
         {
             if (webRequest.Address.StartsWith("http"))
             {
-                MakeRequest(webRequest.Address, webRequest.Response);
-
+                try
+                {
+                    MakeRequest(webRequest);//webRequest.Address, webRequest.Response, webRequest.CookieJar, webRequest.Headers, webRequest.Method);
+                }
+                catch (Exception ex)
+                {
+                    if (ex.Message == "Trust Issue")
+                    {
+                        webRequest.Address = DomainUtility.EnsureHTTPS(webRequest.Address);
+                        MakeRequest(webRequest);
+                    }
+                    else
+                        throw;
+                }
                 if (!String.IsNullOrEmpty(webRequest.Response.Body))
                 {
                     HtmlDocument document = new HtmlDocument();
@@ -39,9 +52,13 @@ namespace Clark.Common.Utility
                                 string scriptSrc = ResolveRelativePaths(script, webRequest.Address);
                                 if (!webRequest.Response.Scripts.ContainsKey(scriptSrc))
                                 {
-                                    WebPageResponse scriptResponse = new WebPageResponse();
-                                    MakeRequest(scriptSrc, scriptResponse);
-                                    webRequest.Response.Scripts.Add(scriptSrc, scriptResponse.Body);
+                                    //WebPageResponse scriptResponse = new WebPageResponse();
+                                    WebPageRequest scriptRequest = new WebPageRequest(webRequest);//scriptSrc
+                                    scriptRequest.Address = scriptSrc;
+                                    scriptRequest.RequestBody = "";
+                                    MakeRequest(scriptRequest);
+
+                                    webRequest.Response.Scripts.Add(scriptSrc, scriptRequest.Response.Body);
                                 }
                             }
                             catch { }
@@ -51,15 +68,13 @@ namespace Clark.Common.Utility
             }
             else
             {
-                MakeRequest("https://" + webRequest.Address, webRequest.Response);
+                string vanillaAddress = webRequest.Address;
+                webRequest.Address = "https://" + vanillaAddress;
+                MakeRequest(webRequest);
                 if (String.IsNullOrEmpty(webRequest.Response.Body))
                 {
-                    MakeRequest("http://" + webRequest.Address, webRequest.Response);
-                    webRequest.Address = "http://" + webRequest.Address;
-                }
-                else
-                {
-                    webRequest.Address = "https://" + webRequest.Address;
+                    webRequest.Address = "http://" + vanillaAddress;
+                    MakeRequest(webRequest);
                 }
 
                 if (!String.IsNullOrEmpty(webRequest.Response.Body))
@@ -75,13 +90,17 @@ namespace Clark.Common.Utility
                             try
                             {
                                 string script = scriptNode.Attributes["src"].Value;
-
+        
                                 string scriptSrc = ResolveRelativePaths(script, webRequest.Address);
                                 if (!webRequest.Response.Scripts.ContainsKey(scriptSrc))
                                 {
-                                    WebPageResponse scriptResponse = new WebPageResponse();
-                                    MakeRequest(scriptSrc, scriptResponse);
-                                    webRequest.Response.Scripts.Add(scriptSrc, scriptResponse.Body);
+                                    //WebPageResponse scriptResponse = new WebPageResponse();
+                                    WebPageRequest scriptRequest = new WebPageRequest(webRequest);//scriptSrc
+                                    scriptRequest.Address= scriptSrc;
+                                    scriptRequest.RequestBody="";
+                                    MakeRequest(scriptRequest);
+
+                                    webRequest.Response.Scripts.Add(scriptSrc, scriptRequest.Response.Body);
                                 }
                             }
                             catch { }
@@ -91,17 +110,45 @@ namespace Clark.Common.Utility
             }
         }
 
-        private static void MakeRequest(string url, WebPageResponse webResponse)
+        private static void MakeRequest(WebPageRequest webRequest)//string url, WebPageResponse webResponse, CookieCollection cookieCollection, WebHeaderCollection headers, string method)
         {
             try
             {
+                //This line will ignore any cert errors
+                ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback(delegate { return true; });
+
                 ServicePointManager.Expect100Continue = true;
                 ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls
                        | SecurityProtocolType.Tls11
                        | SecurityProtocolType.Tls12
                        | SecurityProtocolType.Ssl3;
 
-                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(webRequest.Address);
+                if (webRequest.CookieJar.Count != 0)
+                {
+                    request.CookieContainer = new CookieContainer();
+                    request.CookieContainer.Add(webRequest.CookieJar);
+                }
+
+                if (webRequest.Headers.Count != 0)
+                {
+                    request.Headers = webRequest.Headers;
+                }
+
+                if (webRequest.ContentType.Length != 0)
+                    request.ContentType = webRequest.ContentType;
+
+                request.Method = webRequest.Method;
+
+                if (webRequest.RequestBody.Length != 0) 
+                {
+                    using (var stream = request.GetRequestStream())
+                    {
+                        var data = Encoding.ASCII.GetBytes(webRequest.RequestBody);
+                        stream.Write(data, 0, data.Length);
+                    }
+                }
+                
                 HttpWebResponse response = (HttpWebResponse)request.GetResponse();
 
                 if (response.StatusCode == HttpStatusCode.OK)
@@ -110,23 +157,27 @@ namespace Clark.Common.Utility
 
                     response.Close();
 
-                    webResponse.Body = data;
+                    webRequest.Response.Body = data;
                 }
 
-                webResponse.Code = ((int)response.StatusCode).ToString();
+                webRequest.Response.Code = ((int)response.StatusCode).ToString();
+                webRequest.Response.CookieJar = response.Cookies;
+                webRequest.Response.Headers = response.Headers;
             }
             catch (WebException e)
             {
                 switch (e.Status)
                 {
+                    case WebExceptionStatus.TrustFailure:
+                        throw new Exception("Trust Issue");
                     case WebExceptionStatus.ProtocolError:
                         if (e.Response != null)
                         {
-                            webResponse.Code = "404";
+                            webRequest.Response.Code = "404";
                             var resp = (HttpWebResponse)e.Response;
                             if (resp.StatusCode == HttpStatusCode.NotFound)
                             {
-                                webResponse.Body = ReadStream(resp);
+                                webRequest.Response.Body = ReadStream(resp);
                             }
                             else
                             {
@@ -134,13 +185,13 @@ namespace Clark.Common.Utility
                             }
                         }
 
-                        webResponse.NotFound = true;
+                        webRequest.Response.NotFound = true;
                         break;
                     case WebExceptionStatus.Timeout:
-                        if (webResponse != null)
+                        if (webRequest.Response != null)
                         {
                             // Handle timeout exception
-                            webResponse.TimeOut = true;
+                            webRequest.Response.TimeOut = true;
                         }
                         break;
                 }
@@ -162,7 +213,7 @@ namespace Clark.Common.Utility
             }
             else
             {
-                readStream = new StreamReader(receiveStream, Encoding.GetEncoding(response.CharacterSet));
+                readStream = new StreamReader(receiveStream, Encoding.GetEncoding(response.CharacterSet.Replace("\\", String.Empty).Replace("\"", String.Empty)));
             }
 
             string data = readStream.ReadToEnd();
@@ -174,6 +225,11 @@ namespace Clark.Common.Utility
         {
             string resolvedUrl = String.Empty;
 
+            if (relativeUrl.StartsWith("http"))
+                return relativeUrl;
+
+
+
             bool tampered = false;
             Uri originatingUri = new Uri(originatingUrl);
             string originalHost = originatingUri.Scheme + "://" + originatingUri.Host;
@@ -181,6 +237,12 @@ namespace Clark.Common.Utility
             {
                 tampered = true;
                 originatingUrl = originatingUrl.Substring(originalHost.Length, originatingUrl.Length - originalHost.Length);
+            }
+
+            if (relativeUrl.StartsWith("/"))
+            {
+                resolvedUrl = originalHost.Trim('/') + '/' + relativeUrl.Trim('/');
+                return resolvedUrl;
             }
 
             string[] relativeUrlArray = relativeUrl.Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries);

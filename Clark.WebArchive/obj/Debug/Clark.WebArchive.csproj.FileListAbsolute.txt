@@ -1,0 +1,8 @@
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.WebArchive\bin\Debug\Clark.WebArchiveCrawler.dll
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.WebArchive\bin\Debug\Clark.WebArchiveCrawler.pdb
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.WebArchive\bin\Debug\Clark.Common.dll
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.WebArchive\bin\Debug\HtmlAgilityPack.dll
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.WebArchive\bin\Debug\Clark.Common.pdb
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.WebArchive\obj\Debug\Clark.WebArchive.csprojResolveAssemblyReference.cache
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.WebArchive\obj\Debug\Clark.WebArchiveCrawler.dll
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.WebArchive\obj\Debug\Clark.WebArchiveCrawler.pdb

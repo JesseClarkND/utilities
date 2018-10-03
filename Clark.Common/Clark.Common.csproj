@@ -45,6 +45,8 @@
     <Compile Include="Models\WebPageRequest.cs" />
     <Compile Include="Models\WebPageResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utility\Crypto.cs" />
+    <Compile Include="Utility\DomainUtility.cs" />
     <Compile Include="Utility\MailGun.cs" />
     <Compile Include="Utility\WebPageLoader.cs" />
   </ItemGroup>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,7 +15,22 @@ namespace Clark.Common.Models
             Address = address;
         }
 
+        public WebPageRequest(WebPageRequest previousRequest)
+        {
+            Address = previousRequest.Address;
+            CookieJar = previousRequest.CookieJar;
+            Headers = previousRequest.Headers;
+            Method = previousRequest.Method;
+            RequestBody = previousRequest.RequestBody;
+        }
+
         public string Address = "";
+        public CookieCollection CookieJar = new CookieCollection();
+        public WebHeaderCollection Headers = new WebHeaderCollection();
+        public string Method = "GET";
+        public string RequestBody = "";
+        public string ContentType = "";
+
         public WebPageResponse Response = new WebPageResponse();
     }
 }
