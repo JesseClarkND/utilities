@@ -8,12 +8,19 @@ namespace Clark.ContentScanner
 {
     public static class DefaultPage
     {
-                private static List<Domain> _domainList = new List<Domain>();
+        private static List<Domain> _domainList = new List<Domain>();
+        private static readonly object _syncObject = new object();
 
         public static string Check(string body)
         {
             if (_domainList.Count == 0)
-                Initialize();
+            {
+                lock (_syncObject)
+                {
+                    if (_domainList.Count == 0)
+                        Initialize();
+                }
+            }
 
             if (String.IsNullOrEmpty(body))
                 return "";
@@ -22,7 +29,7 @@ namespace Clark.ContentScanner
             foreach (Domain domainTest in _domainList)
             {
                 domain = Check_Domain(body, domainTest);
-                if (String.IsNullOrEmpty(domain))
+                if (!String.IsNullOrEmpty(domain))
                     return domain;
             }
 

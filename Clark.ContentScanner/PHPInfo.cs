@@ -13,11 +13,18 @@ namespace Clark.ContentScanner
     {
         private static List<string> _fileNames = new List<string>();
         private static List<string> _fingerPrints = new List<string>();
+        private static readonly object _syncObject = new object();
 
         public static string Check(string domain)
         {
             if (_fileNames.Count == 0)
-                Initialize();
+            {
+                lock (_syncObject)
+                {
+                    if (_fileNames.Count == 0)
+                        Initialize();
+                }
+            }
 
             foreach (string fileName in _fileNames)
             {

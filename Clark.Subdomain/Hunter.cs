@@ -14,17 +14,27 @@ using System.Web;
 
 namespace Clark.Subdomain
 {
+    public class HunterRequest
+    {
+        public string Domain = "";
+        public string SecurityTrailsAPIKey = "";
+        public string VirusTotalAPIKey = "";
+        public List<string> KnownSubdomains = null;
+    }
+
     public class Hunter
     {
-        public static List<string> GatherAll(string domain, List<string> knownSubDomains = null)
+        public static List<string> GatherAll(HunterRequest request)//(string domain, List<string> knownSubDomains = null)
         {
-            List<string> subdomains = knownSubDomains;
+            List<string> subdomains = request.KnownSubdomains;
             if (subdomains == null)
                 subdomains = new List<string>();
 
-            subdomains = Gather_FindSubdomains(domain);
-            subdomains.AddRange(Gather_SecurityTrails(domain));
-            subdomains.AddRange(Gather_NetCraft(domain));
+            subdomains = Gather_FindSubdomains(request.Domain);
+            subdomains.AddRange(Gather_SecurityTrails(request.Domain, request.SecurityTrailsAPIKey));
+            subdomains.AddRange(Gather_NetCraft(request.Domain));
+            subdomains.AddRange(Gather_VirusTotal(request.Domain, request.VirusTotalAPIKey));
+            subdomains.AddRange(Gather_ThreatCrowd(request.Domain));
 
             return subdomains.Distinct().ToList();
         }
@@ -63,7 +73,7 @@ namespace Clark.Subdomain
             return subdomains;
         }
 
-        public static List<string> Gather_SecurityTrails(string domain)
+        public static List<string> Gather_SecurityTrails(string domain, string apiKey)
         {
             //https://api.securitytrails.com/v1/ping?apikey=your_api_key
             //
@@ -79,7 +89,7 @@ namespace Clark.Subdomain
             //request.Headers.Add("APIKEY", "IqrDwrRNXp9mzI7pQyL5WplM2l60soBs");
             //request.RequestBody = "{\"query\": \"apex_domain='" + domain + "'\"}";
             request.Address = "https://api.securitytrails.com/v1/domain/" + domain + "/subdomains";
-            request.Headers.Add("APIKEY", "IqrDwrRNXp9mzI7pQyL5WplM2l60soBs");
+            request.Headers.Add("APIKEY", apiKey);
             WebPageLoader.Load(request);
 
             dynamic d = JObject.Parse(request.Response.Body);
@@ -109,7 +119,6 @@ namespace Clark.Subdomain
 
             return subdomains;
         }
-
 
         public static List<string> Gather_NetCraft(string domain)
         {
@@ -187,32 +196,80 @@ namespace Clark.Subdomain
             } while (!String.IsNullOrEmpty(nextLink));
 
             return subdomains.Distinct().ToList();
-
-
-            //List<string> subdomains = new List<string>();
-
-            //WebPageRequest request = new WebPageRequest();
-            //request.Address = "https://findsubdomains.com/subdomains-of/" + domain;
-
-
-            //var divNodes = htmlDoc.DocumentNode.SelectNodes("//div[contains(@class,'js-domain-name')]");
-            //if (divNodes != null)
-            //{
-            //    foreach (HtmlNode div in divNodes)
-            //    {
-            //        subdomains.Add(Regex.Replace(div.InnerText, @"\n|\s+", ""));
-            //    }
-            //}
-            //return subdomains;
         }
 
-
-        private static List<string> Gather_VirusTotal(string domain)
+        private static List<string> Gather_ThreatCrowd(string domain)
         {
-            throw new NotImplementedException();
-            //https://developers.virustotal.com/v2.0/reference#domain-report
+            List<string> subdomains = new List<string>();
+
+            WebPageRequest request = new WebPageRequest();
+            request.Address = "https://www.threatcrowd.org/searchApi/v2/domain/report/?domain=" + domain;
+            WebPageLoader.Load(request);
+
+            dynamic d = JObject.Parse(request.Response.Body);
+
+            if (d.subdomains != null)
+            {
+                foreach (string subdomain in d.subdomains)
+                {
+                    subdomains.Add(subdomain);
+                }
+            }
+
+            return subdomains;
+        }
+
+        private static List<string> Gather_VirusTotal(string domain, string apiKey)
+        {
+           //This site also offers an API 4 request/min and there is also limited info on a page
+            //try the api then try the page
 
             List<string> subdomains = new List<string>();
+
+            WebPageRequest request = new WebPageRequest();
+            request.Address = "https://www.virustotal.com/vtapi/v2/domain/report?apikey=" + apiKey + "&domain=" + domain;
+            WebPageLoader.Load(request);
+
+            dynamic d = JObject.Parse(request.Response.Body);
+
+            if (d.subdomains != null)
+            {
+                foreach (string subdomain in d.subdomains)
+                {
+                    subdomains.Add(subdomain);
+                }
+            }
+
+            if (subdomains.Count == 0)
+            {
+                request = new WebPageRequest();
+                request.Address = "https://www.virustotal.com/en/domain/" + domain + "/information";
+                request.CookieJar.Add(new System.Net.Cookie()
+                {
+                    Domain = "www.virustotal.com",
+                    HttpOnly = false,
+                    Path = "/",
+                    Name = "VT_PREFERRED_LANGUAGE",
+                    Value = "en"
+                });
+
+                WebPageLoader.Load(request);
+
+                HtmlAgilityPack.HtmlDocument htmlDoc = new HtmlAgilityPack.HtmlDocument();
+                htmlDoc.LoadHtml(request.Response.Body);
+
+                var divNode = htmlDoc.DocumentNode.SelectSingleNode("//div[@id='observed-subdomains']");
+                if (divNode != null)
+                {
+                    var aNodes = divNode.Descendants("a");
+                    foreach (HtmlNode a in aNodes)
+                    {
+                        string found = Regex.Replace(a.InnerText, @"\n|\s+", "");
+                        if (found.Contains("yahoo.com"))
+                            subdomains.Add(found);
+                    }
+                }
+            }
 
             return subdomains;
         }

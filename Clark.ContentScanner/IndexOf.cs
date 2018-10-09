@@ -9,11 +9,20 @@ namespace Clark.ContentScanner
     public static class IndexOf
     {
         private static List<string> _indexFingerPrints = new List<string>();
+        private static readonly object _syncObject = new object();
 
         public static bool Check(string body)
         {
             if (_indexFingerPrints.Count == 0)
-                Initialize();
+            {
+                lock (_syncObject)
+                {
+                    if (_indexFingerPrints.Count == 0)
+                        Initialize();
+                }
+            }
+
+
             foreach (string fingerprint in _indexFingerPrints) {
                 if (body.Contains(fingerprint))
                     return true;
