@@ -43,9 +43,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BigIP.cs" />
+    <Compile Include="CRLF.cs" />
     <Compile Include="DefaultPage.cs" />
     <Compile Include="IndexOf.cs" />
+    <Compile Include="Internal\Fingerprint.cs" />
     <Compile Include="KnownAttackFiles.cs" />
+    <Compile Include="Models\ScannerRequest.cs" />
+    <Compile Include="Models\ScannerResult.cs" />
     <Compile Include="PHPInfo.cs" />
     <Compile Include="S3Bucket.cs" />
     <Compile Include="Services.cs" />
@@ -60,6 +64,7 @@
       <Name>Clark.Common</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

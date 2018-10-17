@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Clark.ContentScanner.Internal;
+using Clark.ContentScanner.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,10 +10,10 @@ namespace Clark.ContentScanner
 {
     public static class SubdomainTakeover
     {
-        private static List<Domain> _domainList = new List<Domain>();
+        private static List<Fingerprint> _domainList = new List<Fingerprint>();
         private static readonly object _syncObject = new object();
 
-        public static string Check(string body)
+        public static ScannerResult Check(ScannerRequest request)
         {
             if (_domainList.Count == 0)
             {
@@ -22,21 +24,26 @@ namespace Clark.ContentScanner
                 }
             }
 
-            if (String.IsNullOrEmpty(body))
-                return "";
+            ScannerResult result = new ScannerResult();
+            if (String.IsNullOrEmpty(request.Body))
+                return result;
 
             string domain = "";
-            foreach (Domain domainTest in _domainList)
+            foreach (Fingerprint domainTest in _domainList)
             {
-                domain = Check_Domain(body, domainTest);
+                domain = Check_Domain(request.Body, domainTest);
                 if(!String.IsNullOrEmpty(domain))
-                    return domain;
+                {
+                    result.Success = true;
+                    result.Results.Add(domain);
+                    return result;
+                }
             }
 
-            return domain;
+            return result;
         }
 
-        private static string Check_Domain(string body, Domain domain)
+        private static string Check_Domain(string body, Fingerprint domain)
         {
             bool anyFingerPrintsConfirmed = false;
             foreach (string fingerPrint in domain.Fingerprints)
@@ -49,100 +56,100 @@ namespace Clark.ContentScanner
             }
 
             if (anyFingerPrintsConfirmed)
-                return domain.Engine;
+                return domain.Name;
             return "";
         }
 
         private static void Initialize() {
-            _domainList.Add(new Domain()
+            _domainList.Add(new Fingerprint()
             {
-                Engine = "AWS/S3",
+                Name = "AWS/S3",
                 Fingerprints = new List<string>(){"<Code>NoSuchBucket</Code>"},
                 Reference = ""
             });
 
-            _domainList.Add(new Domain()
+            _domainList.Add(new Fingerprint()
             {
-                Engine = "Bitbucket",
+                Name = "Bitbucket",
                 Fingerprints = new List<string>() { "Repository not found" },
                 Reference = ""
             });
 
-            _domainList.Add(new Domain()
+            _domainList.Add(new Fingerprint()
             {
-                Engine = "Campaign Monitor",
+                Name = "Campaign Monitor",
                 Fingerprints = new List<string>() { "<title>Campaign Monitor</title>" },//todo: not tested
                 Reference = "https://help.campaignmonitor.com/custom-domain-names"
             });
 
 
-            _domainList.Add(new Domain()
+            _domainList.Add(new Fingerprint()
             {
-                Engine = "Cargo Collective",
+                Name = "Cargo Collective",
                 Fingerprints = new List<string>() { "<div class=\"tesseract\"></div>", "<title>404 &mdash; File not found</title>" },
                 Reference = "https://support.2.cargocollective.com/Using-a-Third-Party-Domain"
             });
 
 
-            _domainList.Add(new Domain()
+            _domainList.Add(new Fingerprint()
             {
-                Engine = "Cloudfront",
+                Name = "Cloudfront",
                 Fingerprints = new List<string>() { "Bad Request: ERROR: The request could not be satisfied" },
                 Reference = "https://blog.zsec.uk/subdomainhijack/"
             });
 
-            _domainList.Add(new Domain()
+            _domainList.Add(new Fingerprint()
             {
-                Engine = "Fastly",
+                Name = "Fastly",
                 Fingerprints = new List<string>() { "Fastly error: unknown domain:" },
                 Reference = ""
             });
 
-            _domainList.Add(new Domain()
+            _domainList.Add(new Fingerprint()
             {
-                Engine = "Feedpress",
+                Name = "Feedpress",
                 Fingerprints = new List<string>() { "The feed has not been found." },
                 Reference = "https://hackerone.com/reports/195350"
             });
 
-            _domainList.Add(new Domain()
+            _domainList.Add(new Fingerprint()
             {
-                Engine = "Ghost",
+                Name = "Ghost",
                 Fingerprints = new List<string>() { "The thing you were looking for is no longer here, or never was" },
                 Reference = ""
             });
 
-            _domainList.Add(new Domain()
+            _domainList.Add(new Fingerprint()
             {
-                Engine = "Github",
+                Name = "Github",
                 Fingerprints = new List<string>() { "There isn't a Github Pages site here." },
                 Reference = "https://hackerone.com/reports/263902"
             });
 
-            _domainList.Add(new Domain()
+            _domainList.Add(new Fingerprint()
             {
-                Engine = "Help Juice",
+                Name = "Help Juice",
                 Fingerprints = new List<string>() { "We could not find what you're looking for." },
                 Reference = "https://helpjuice.com"
             });
 
-            _domainList.Add(new Domain()
+            _domainList.Add(new Fingerprint()
             {
-                Engine = "Help Scout",
+                Name = "Help Scout",
                 Fingerprints = new List<string>() { "No settings were found for this company:" },
                 Reference = "https://docs.helpscout.net/article/42-setup-custom-domain"
             });
 
-            _domainList.Add(new Domain()
+            _domainList.Add(new Fingerprint()
             {
-                Engine = "Heroku",
+                Name = "Heroku",
                 Fingerprints = new List<string>() { "No such app" },
                 Reference = ""
             });
 
-            _domainList.Add(new Domain()
+            _domainList.Add(new Fingerprint()
             {
-                Engine = "JetBrains",
+                Name = "JetBrains",
                 Fingerprints = new List<string>() { "is not a registered InCloud YouTrack" },
                 Reference = ""
             });
@@ -154,73 +161,67 @@ namespace Clark.ContentScanner
             //    Reference = ""
             //});
 
-            _domainList.Add(new Domain()
+            _domainList.Add(new Fingerprint()
             {
-                Engine = "Shopify",
+                Name = "Shopify",
                 Fingerprints = new List<string>() { "Sorry, this shop is currently unavailable." },
                 Reference = ""
             });
 
-            _domainList.Add(new Domain()
+            _domainList.Add(new Fingerprint()
             {
-                Engine = "Statuspage.io",
+                Name = "Statuspage.io",
                 Fingerprints = new List<string>() { "This page is currently inactive and can only be viewed by team members. To see this page" },
                 Reference = ""
             });
 
-            _domainList.Add(new Domain()
+            _domainList.Add(new Fingerprint()
             {
-                Engine = "Surge.sh",
+                Name = "Surge.sh",
                 Fingerprints = new List<string>() { "project not found" },
                 Reference = "	https://surge.sh/help/adding-a-custom-domain"
             });
 
-            _domainList.Add(new Domain()
+            _domainList.Add(new Fingerprint()
             {
-                Engine = "Tumblr",
+                Name = "Tumblr",
                 Fingerprints = new List<string>() { "Whatever you were looking for doesn't currently exist at this address" },
                 Reference = ""
             });
 
-            _domainList.Add(new Domain()
-            {
-                Engine = "Unbounce",
-                Fingerprints = new List<string>() { "The requested URL was not found on this server." },
-                Reference = ""
-            });
+            //_domainList.Add(new Domain()
+            //{
+            //    Engine = "Unbounce",
+            //    Fingerprints = new List<string>() { "The requested URL was not found on this server." },
+            //    Reference = ""
+            //});
 
-            _domainList.Add(new Domain()
+            _domainList.Add(new Fingerprint()
             {
-                Engine = "UserVoice",
+                Name = "UserVoice",
                 Fingerprints = new List<string>() { "This UserVoice subdomain is currently available!" },
                 Reference = ""
             });
 
-            _domainList.Add(new Domain()
+            _domainList.Add(new Fingerprint()
             {
-                Engine = "Wordpress",
+                Name = "Wordpress",
                 Fingerprints = new List<string>() { "Do you want to register", "wordpress.com?" },
                 Reference = ""
             });
-            _domainList.Add(new Domain()
+            _domainList.Add(new Fingerprint()
             {
-                Engine = "Zendesk",
+                Name = "Zendesk",
                 Fingerprints = new List<string>() { "Help Center Closed" },
                 Reference = ""
             });
-            _domainList.Add(new Domain()
+            _domainList.Add(new Fingerprint()
             {
-                Engine = "SurveyGizmo",
+                Name = "SurveyGizmo",
                 Fingerprints = new List<string>() { "Oh dear! We can’t seem to find that page, but all is not lost." },
                 Reference = "https://help.surveygizmo.com/help/set-up-a-branded-subdomain"
             });
         }
 
-    }
-
-    internal class Domain{
-        public string Engine="";
-        public List<string> Fingerprints=new List<string>();
-        public string Reference="";
     }
 }

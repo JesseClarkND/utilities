@@ -1,5 +1,6 @@
 ﻿using Clark.Common.Models;
 using Clark.Common.Utility;
+using Clark.ContentScanner.Models;
 using Clark.ContentScanner.Utility;
 using System;
 using System.Collections.Generic;
@@ -15,7 +16,7 @@ namespace Clark.ContentScanner
         private static List<string> _fingerPrints = new List<string>();
         private static readonly object _syncObject = new object();
 
-        public static string Check(string domain)
+        public static ScannerResult Check(ScannerRequest request)
         {
             if (_fileNames.Count == 0)
             {
@@ -26,15 +27,20 @@ namespace Clark.ContentScanner
                 }
             }
 
+            ScannerResult result = new ScannerResult();
             foreach (string fileName in _fileNames)
             {
-                string testedFile = domain.Trim('/') + "/" + fileName;
-                WebPageRequest request = new WebPageRequest(testedFile);
-                WebPageLoader.Load(request);
-                if (Check_Contents(request.Response.Body))
-                    return testedFile;
+                string testedFile = request.URL.Trim('/') + "/" + fileName;
+                WebPageRequest webRequest = new WebPageRequest(testedFile);
+                WebPageLoader.Load(webRequest);
+                if (Check_Contents(webRequest.Response.Body))
+                {
+                    result.Success = true;
+                    result.Results.Add(testedFile);
+                    return result;
+                }
             }
-            return "";
+            return result;
         }
 
         private static bool Check_Contents(string body)
@@ -54,6 +60,7 @@ namespace Clark.ContentScanner
 
         private static void Initialize()
         {
+            _fileNames.Add("getphpinfo.php");
             _fileNames.Add("phpinfo.php");
             _fileNames.Add("info.php");
             _fileNames.Add("phpinfo.html");

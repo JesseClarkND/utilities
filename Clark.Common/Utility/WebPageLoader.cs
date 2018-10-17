@@ -174,6 +174,7 @@ namespace Clark.Common.Utility
                         if (e.Response != null)
                         {
                             webRequest.Response.Code = "404";
+                            webRequest.Response.Headers = e.Response.Headers;
                             var resp = (HttpWebResponse)e.Response;
                             if (resp.StatusCode == HttpStatusCode.NotFound)
                             {

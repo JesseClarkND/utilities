@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Clark.ContentScanner.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,7 +12,7 @@ namespace Clark.ContentScanner
         private static List<string> _indexFingerPrints = new List<string>();
         private static readonly object _syncObject = new object();
 
-        public static bool Check(string body)
+        public static ScannerResult Check(ScannerRequest request)
         {
             if (_indexFingerPrints.Count == 0)
             {
@@ -22,12 +23,12 @@ namespace Clark.ContentScanner
                 }
             }
 
-
+            ScannerResult result = new ScannerResult();
             foreach (string fingerprint in _indexFingerPrints) {
-                if (body.Contains(fingerprint))
-                    return true;
+                if (request.Body.Contains(fingerprint))
+                    result.Success=true;
             }
-            return false;
+            return result;
         }
 
         private static void Initialize()

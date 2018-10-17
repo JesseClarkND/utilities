@@ -1,5 +1,6 @@
 ﻿using Clark.Common.Models;
 using Clark.Common.Utility;
+using Clark.ContentScanner.Models;
 using Clark.ContentScanner.Utility;
 using HtmlAgilityPack;
 using System;
@@ -14,9 +15,10 @@ namespace Clark.ContentScanner
     public static class SocialMedia
     {
         private static List<DomainData> _socialDomains = new List<DomainData>();
+        private static List<string> _masterIgnoreList = new List<string>();
         private static readonly object _syncObject = new object();
 
-        public static List<string> Check(string body)
+        public static ScannerResult Check(ScannerRequest request)
         {
             if (_socialDomains.Count == 0)
             {
@@ -27,8 +29,12 @@ namespace Clark.ContentScanner
                 }
             }
 
+           ScannerResult result = new ScannerResult();
+           if (_masterIgnoreList.Contains(request.Domain))
+               return result;
+
             HtmlDocument htmlDoc = new HtmlDocument();
-            htmlDoc.LoadHtml(body);
+            htmlDoc.LoadHtml(request.Body);
 
             List<string> linksFound = new List<string>();
 
@@ -40,19 +46,24 @@ namespace Clark.ContentScanner
                     string value = node.Attributes["href"].Value;
                     if (!value.StartsWith("mailto"))
                     {
-                        if (CheckURL(value) && !linksFound.Contains(value))
+                        if (CheckURL(request.Domain, value) && !linksFound.Contains(value))
+                        {
+                            result.Success = true;
                             linksFound.Add(value);
+                        }
                     }
                 }
             }
 
-            return linksFound;
+            result.Results.AddRange(linksFound);
+
+            return result;
         }
 
-        private static bool CheckURL(string url) {
+        private static bool CheckURL(string startingDomain, string url) {
             string foundURL = DomainUtility.StripProtocol(url.Split('?')[0]);
 
-            if (CheckIfSocialMediaSite(foundURL))
+            if (CheckIfSocialMediaSite(startingDomain, foundURL))
             {
 
                 //if (userNames.Count == 0)
@@ -90,13 +101,16 @@ namespace Clark.ContentScanner
             return false;
         }
 
-        private static bool CheckIfSocialMediaSite(string url)
+        private static bool CheckIfSocialMediaSite(string startingDomain, string url)
         {
             string foundDomain = DomainUtility.GetDomainFromUrl(url);
             string foundURL = url.Split('?')[0];
 
             foreach (DomainData social in _socialDomains)
             {
+                if(foundDomain.ToLower().Equals(startingDomain))
+                    continue;
+
                 if (foundDomain.ToLower().Equals(social.DomainName.ToLower()))
                 {
                     if (!CheckForSharing(url, social))
@@ -130,13 +144,15 @@ namespace Clark.ContentScanner
             {
                 new DomainData("facebook.com", new List<string>(){ "iframe", "share", "pages", "search"}),
                 new DomainData("twitter.com", new List<string>(){ "iframe", "intent", "statuses", "status", "/search"}),
-             //   new DomainData("pintrist.com", new List<string>(){ "iframe", "pin/create"}),
+                new DomainData("pintrist.com", new List<string>(){ "iframe", "pin/create"}),
                 new DomainData("youtube.com", new List<string>(){ "iframe", "watch", "embed", "channel"}),
                 new DomainData("instagram.com", new List<string>(){ "iframe", "instagram.com/p/"}),
               //  new DomainData("linkedin.com", new List<string>(){ "iframe"}),
-                new DomainData("tumblr.com", new List<string>(){ "iframe"}),
+                new DomainData("tumblr.com", new List<string>(){ "iframe", "tumblr.com/share", "tumblr.com/widget"}),
                 new DomainData("flickr.com", new List<string>(){ "iframe"}),
             };
+
+            _masterIgnoreList.Add("vhx.tv");
         }
     }
 

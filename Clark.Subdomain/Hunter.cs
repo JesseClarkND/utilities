@@ -92,6 +92,12 @@ namespace Clark.Subdomain
             request.Headers.Add("APIKEY", apiKey);
             WebPageLoader.Load(request);
 
+            if (String.IsNullOrEmpty(request.Response.Body))
+                return subdomains;
+
+            if (String.IsNullOrEmpty(request.Response.Body))
+                return subdomains;
+
             dynamic d = JObject.Parse(request.Response.Body);
 
             if (d.subdomains != null) {
@@ -206,7 +212,13 @@ namespace Clark.Subdomain
             request.Address = "https://www.threatcrowd.org/searchApi/v2/domain/report/?domain=" + domain;
             WebPageLoader.Load(request);
 
+            if (String.IsNullOrEmpty(request.Response.Body))
+                return subdomains;
+
             dynamic d = JObject.Parse(request.Response.Body);
+
+            if (String.IsNullOrEmpty(request.Response.Body))
+                return subdomains;
 
             if (d.subdomains != null)
             {
@@ -230,13 +242,19 @@ namespace Clark.Subdomain
             request.Address = "https://www.virustotal.com/vtapi/v2/domain/report?apikey=" + apiKey + "&domain=" + domain;
             WebPageLoader.Load(request);
 
-            dynamic d = JObject.Parse(request.Response.Body);
+            if (String.IsNullOrEmpty(request.Response.Body))
+                return subdomains;
 
-            if (d.subdomains != null)
+            if (!String.IsNullOrEmpty(request.Response.Body))
             {
-                foreach (string subdomain in d.subdomains)
+                dynamic d = JObject.Parse(request.Response.Body);
+
+                if (d.subdomains != null)
                 {
-                    subdomains.Add(subdomain);
+                    foreach (string subdomain in d.subdomains)
+                    {
+                        subdomains.Add(subdomain);
+                    }
                 }
             }
 

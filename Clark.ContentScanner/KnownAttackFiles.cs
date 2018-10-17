@@ -1,5 +1,6 @@
 ﻿using Clark.Common.Models;
 using Clark.Common.Utility;
+using Clark.ContentScanner.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace Clark.ContentScanner
         private static List<AttackFile> _knownAttackFiles = new List<AttackFile>();
         private static readonly object _syncObject = new object();
 
-        public static List<string> Check(string domain)
+        public static ScannerResult Check(ScannerRequest request)
         {
             if (_knownAttackFiles.Count == 0)
             {
@@ -24,31 +25,47 @@ namespace Clark.ContentScanner
                 }
             }
 
+            ScannerResult result = new ScannerResult();
             List<string> returnList = new List<string>();
 
-                string testedFile = domain.Trim('/') + "/lkfkjsalkalkln3nfioaoisf0090cvlklkvkllkalk";
-                WebPageRequest request = new WebPageRequest(testedFile);
-                WebPageLoader.Load(request);
-                if (request.Response.Code.Equals("200"))
-                {
-                    return returnList;
-                }
+            string testedFile = request.URL.Trim('/') + "/lkfkjsalkalkln3nfioaoisf0090cvlklkvkllkalk";
+            WebPageRequest webRequest = new WebPageRequest(testedFile);
+            WebPageLoader.Load(webRequest);
+            if (webRequest.Response.Code.Equals("200"))
+            {
+                return result;
+            }
 
 
             foreach (AttackFile attack in _knownAttackFiles)
             {
-                testedFile = domain.Trim('/') + "/" + attack.File;
-                request = new WebPageRequest(testedFile);
-                WebPageLoader.Load(request);
-                if (request.Response.Code.Equals("200"))
+                testedFile = request.URL.Trim('/') + "/" + attack.File;
+                webRequest = new WebPageRequest(testedFile);
+                WebPageLoader.Load(webRequest);
+                if (webRequest.Response.Code.Equals("200"))
                 {
-                    string attackString = attack.Attacks.FirstOrDefault();
-                    if (!String.IsNullOrEmpty(attackString))
-                        testedFile = testedFile + attackString;
-                    returnList.Add(testedFile);
+                    bool anyFingerPrint = false;
+                    foreach (string fp in attack.FingerPrint)
+                    {
+                        if (webRequest.Response.Body.Contains(fp))
+                        {
+                            anyFingerPrint = true;
+                            break;
+                        }
+                    }
+                    
+                    if(anyFingerPrint){
+                        result.Success=true;
+                        string attackString = attack.Attacks.FirstOrDefault();
+                        if (!String.IsNullOrEmpty(attackString))
+                            testedFile = testedFile + attackString;
+                        returnList.Add(testedFile);
+                    }
                 }
             }
-            return returnList;
+            result.Results.AddRange(returnList);
+
+            return result;
         }
 
         private static void Initialize()
@@ -58,19 +75,31 @@ namespace Clark.ContentScanner
             _knownAttackFiles.Add(new AttackFile()
             {
                 File = "/7/0/34/aeb617f1a7b102/curiosity-media.discovery.com/hogarth45.html",
-                Attacks = new List<string>() {}
+                Attacks = new List<string>() {},
+                FingerPrint = new List<string>() { "POC for Hogarth45" }
             });
 
             _knownAttackFiles.Add(new AttackFile()
             {
-                File = "/f/229/201/7d/home.peoplepc.com/psp/editlgf8s--%3E<img src%3da onerror%3dalert(location)>vq0zz/email.asp",
-                Attacks = new List<string>() { }
+                File = "/f/229/201/7d/home.peoplepc.com/psp/editlgf8s--%3E<img src%3da onerror%3dalert(1234)>vq0zz/email.asp",
+                Attacks = new List<string>() { },
+                FingerPrint = new List<string>() { "alert(1234)" }
             });
 
             _knownAttackFiles.Add(new AttackFile()
             {
-                File = "/f/465/1984/1d/www.ingentaconnect.com/content/jbp/intp/2010/00000012/00000001/art00002?tp=z%22%3E%3Csvg%20onload=window.onerror=n=confirm,n(location)%3E%3C/svg%3Ebwgjq&a=directorio&d=0003300-2009-05-26.php",
-                Attacks = new List<string>() { }
+                File = "/f/465/1984/1d/www.ingentaconnect.com/content/jbp/intp/2010/00000012/00000001/art00002?tp=z%22%3E%3Csvg%20onload=window.onerror=n=confirm,n(1234)%3E%3C/svg%3Ebwgjq&a=directorio&d=0003300-2009-05-26.php",
+                Attacks = new List<string>() { },
+                FingerPrint = new List<string>() { "n(1234)" }
+            });
+
+            /////bin///querybuilder.json.servlet;%0aa.css?path=/home&p.hits=full&p.limit=-1
+
+            _knownAttackFiles.Add(new AttackFile()
+            {
+                File = "///bin///querybuilder.json.servlet;%0aa.css?path=/home&p.hits=full&p.limit=-1",
+                Attacks = new List<string>() { },
+                FingerPrint = new List<string>() { "rep:AccessControllable" }
             });
 
             //_knownAttackFiles.Add(new AttackFile()
@@ -143,5 +172,6 @@ namespace Clark.ContentScanner
     {
         public string File = "";
         public List<string> Attacks = new List<string>();
+        public List<string> FingerPrint = new List<string>();
     }
 }

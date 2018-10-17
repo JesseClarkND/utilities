@@ -1,5 +1,6 @@
 ﻿using Clark.Common.Models;
 using Clark.Common.Utility;
+using Clark.ContentScanner.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,8 @@ namespace Clark.ContentScanner
         private static List<string> _bucketURLRegex = new List<string>();
         private static readonly object _syncObject = new object();
 
-        public static List<string> BucketCheck(string body) {
+        public static ScannerResult BucketCheck(ScannerRequest request)
+        {
 
             if (_bucketURLRegex.Count == 0)
             {
@@ -25,11 +27,12 @@ namespace Clark.ContentScanner
                 }
             }
 
+            ScannerResult result = new ScannerResult();
             List<string> referencedBuckets = new List<string>();
             List<string> bustedBuckets = new List<string>();
 
             foreach(string search in _bucketURLRegex){
-                MatchCollection collection = Regex.Matches(body, search);
+                MatchCollection collection = Regex.Matches(request.Body, search);
                 referencedBuckets.AddRange(collection.Cast<Match>().Select(match => match.Value).ToList());
             }
 
@@ -40,13 +43,17 @@ namespace Clark.ContentScanner
 
             foreach (string bucket in referencedBuckets)
             {
-                WebPageRequest request = new WebPageRequest(bucket);
-                WebPageLoader.Load(request);
-                if(request.Response.Body.Contains("<Code>NoSuchBucket</Code>"))
+                WebPageRequest webRequest = new WebPageRequest(bucket);
+                WebPageLoader.Load(webRequest);
+                if (webRequest.Response.Body.Contains("<Code>NoSuchBucket</Code>"))
+                {
+                    result.Success = true;
                     bustedBuckets.Add(bucket);
+                }
             }
 
-            return bustedBuckets;
+            result.Results.AddRange(bustedBuckets);
+            return result;
         }
 
         private static void Initilize()

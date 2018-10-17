@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Clark.ContentScanner.Internal;
+using Clark.ContentScanner.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,10 +10,10 @@ namespace Clark.ContentScanner
 {
     public class Services
     {
-        private static List<Domain> _domainList = new List<Domain>();
+        private static List<Fingerprint> _domainList = new List<Fingerprint>();
         private static readonly object _syncObject = new object();
 
-        public static string Check(string body)
+        public static ScannerResult Check(ScannerRequest request)
         {
             if (_domainList.Count == 0)
             {
@@ -22,21 +24,26 @@ namespace Clark.ContentScanner
                 }
             }
 
-            if (String.IsNullOrEmpty(body))
-                return "";
+            ScannerResult result = new ScannerResult();
+            if (String.IsNullOrEmpty(request.Body))
+                return result;
 
             string domain = "";
-            foreach (Domain domainTest in _domainList)
+            foreach (Fingerprint domainTest in _domainList)
             {
-                domain = Check_Domain(body, domainTest);
+                domain = Check_Domain(request.Body, domainTest);
                 if (!String.IsNullOrEmpty(domain))
-                    return domain;
+                {
+                    result.Success = true;
+                    result.Results.Add(domain);
+                    return result;
+                }
             }
 
-            return domain;
+            return result;
         }
 
-        private static string Check_Domain(string body, Domain domain)
+        private static string Check_Domain(string body, Fingerprint domain)
         {
             bool anyFingerPrintsConfirmed = false;
             foreach (string fingerPrint in domain.Fingerprints)
@@ -49,49 +56,49 @@ namespace Clark.ContentScanner
             }
 
             if (anyFingerPrintsConfirmed)
-                return domain.Engine;
+                return domain.Name;
             return "";
         }
 
         private static void Initialize()
         {
-            _domainList.Add(new Domain()
+            _domainList.Add(new Fingerprint()
             {
-                Engine = "Jenkins",
+                Name = "Jenkins",
                 Fingerprints = new List<string>() { "<a href=\"https://jenkins.io/\">Jenkins", "<span class=\"jenkins_ver\">" },
                 Reference = ""
             });
 
-            _domainList.Add(new Domain()
+            _domainList.Add(new Fingerprint()
             {
-                Engine = "Nexus",
+                Name = "Nexus",
                 Fingerprints = new List<string>() { "<title>Nexus Repository Manager</title>" },
                 Reference = ""
             });
 
-            _domainList.Add(new Domain()
+            _domainList.Add(new Fingerprint()
             {
-                Engine = "Artifactory",
+                Name = "Artifactory",
                 Fingerprints = new List<string>() { "Jfrog" },
                 Reference = ""
             });
 
-            _domainList.Add(new Domain()
+            _domainList.Add(new Fingerprint()
             {
-                Engine = "SonarQube",
+                Name = "SonarQube",
                 Fingerprints = new List<string>() { "<title>SonarQube</title>" },
                 Reference = ""
             });
 
-            _domainList.Add(new Domain()
+            _domainList.Add(new Fingerprint()
             {
-                Engine = "JIRA",
+                Name = "JIRA",
                 Fingerprints = new List<string>() { "Jira</title>" },
                 Reference = ""
             });
-            _domainList.Add(new Domain()
+            _domainList.Add(new Fingerprint()
             {
-                Engine = "Github SSO",
+                Name = "Github SSO",
                 Fingerprints = new List<string>() { "New to GitHub?", "Create an account" },
                 Reference = ""
             });
