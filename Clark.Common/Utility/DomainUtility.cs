@@ -26,6 +26,24 @@ namespace Clark.Common.Utility
             return newURL;
         }
 
+        static public string EnsureHTTP(string url)
+        {
+            if (url.StartsWith("http:"))
+                return url;
+
+            string newURL = "";
+            if ((url.Length >= 8 && url.Substring(0, 8) == "https://"))
+            {
+                newURL = "http://" + url.Substring(8, url.Length - 8);
+            }
+            else
+            {
+                newURL = "http://" + url;
+            }
+
+            return newURL;
+        }
+
         static public string StripProtocol(string url)
         {
             if (url.StartsWith("http://"))
@@ -113,6 +131,7 @@ namespace Clark.Common.Utility
              * If a hostname is contained in this set, it is a TLD.
              */
             static public string[] EXACT = new string[] {
+                "com", "net", "org", "mil", "gov",
       "gov.uk",
       "mil.uk",
       "ac",
@@ -585,7 +604,6 @@ namespace Clark.Common.Utility
       "org.co",
       "rec.co",
       "web.co",
-      "com",
       "ar.com",
       "br.com",
       "cn.com",
@@ -741,7 +759,6 @@ namespace Clark.Common.Utility
       "gov.gn",
       "org.gn",
       "net.gn",
-      "gov",
       "gp",
       "com.gp",
       "net.gp",
@@ -1344,7 +1361,6 @@ namespace Clark.Common.Utility
       "mil.mg",
       "com.mg",
       "mh",
-      "mil",
       "mk",
       "com.mk",
       "org.mk",
@@ -1997,7 +2013,6 @@ namespace Clark.Common.Utility
       "nc",
       "asso.nc",
       "ne",
-      "net",
       "gb.net",
       "se.net",
       "uk.net",

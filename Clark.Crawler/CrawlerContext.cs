@@ -14,7 +14,7 @@ namespace Clark.Crawler
     {
         public static ManualResetEvent PauseEvent = new ManualResetEvent(true);
         public static bool SinglePage = false;
-        public static int Depth = 5;
+        public static int Depth = 100;
         public static Uri URI;
         public static string Authority;
         public static HTTPVerb Verb = HTTPVerb.GET;

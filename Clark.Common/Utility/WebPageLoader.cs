@@ -69,11 +69,11 @@ namespace Clark.Common.Utility
             else
             {
                 string vanillaAddress = webRequest.Address;
-                webRequest.Address = "https://" + vanillaAddress;
+                webRequest.Address = "http://" + vanillaAddress;
                 MakeRequest(webRequest);
                 if (String.IsNullOrEmpty(webRequest.Response.Body))
                 {
-                    webRequest.Address = "http://" + vanillaAddress;
+                    webRequest.Address = "https://" + vanillaAddress;
                     MakeRequest(webRequest);
                 }
 
@@ -173,7 +173,15 @@ namespace Clark.Common.Utility
                     case WebExceptionStatus.ProtocolError:
                         if (e.Response != null)
                         {
-                            webRequest.Response.Code = "404";
+                            if(e.Status == WebExceptionStatus.ProtocolError && ((HttpWebResponse)e.Response).StatusCode == HttpStatusCode.Forbidden)
+                            {
+                                webRequest.Response.Code = "403";
+                            }
+                            else if(e.Status == WebExceptionStatus.ProtocolError && ((HttpWebResponse)e.Response).StatusCode == HttpStatusCode.NotFound)
+                            {
+                                webRequest.Response.Code = "404";
+                            }
+ 
                             webRequest.Response.Headers = e.Response.Headers;
                             var resp = (HttpWebResponse)e.Response;
                             if (resp.StatusCode == HttpStatusCode.NotFound)
