@@ -70,6 +70,13 @@ namespace Clark.ContentScanner
 
             _domainList.Add(new Fingerprint()
             {
+                Name = "AWS/S3 2.0",
+                Fingerprints = new List<string>() { "Code: IncorrectEndpoint", "400 Bad Request" },
+                Reference = ""
+            });
+
+            _domainList.Add(new Fingerprint()
+            {
                 Name = "Bitbucket",
                 Fingerprints = new List<string>() { "Repository not found" },
                 Reference = ""

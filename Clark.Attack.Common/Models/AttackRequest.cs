@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Clark.ContentScanner.Models
+namespace Clark.Attack.Common.Models
 {
-    public class ScannerRequest
+    public class AttackRequest
     {
         public string Domain = "";
         public string URL = "";

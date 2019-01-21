@@ -4,6 +4,7 @@ using Clark.ContentScanner.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,6 +13,7 @@ namespace Clark.ContentScanner
     public static class KnownAttackFiles
     {
         private static List<AttackFile> _knownAttackFiles = new List<AttackFile>();
+
         private static readonly object _syncObject = new object();
 
         public static ScannerResult Check(ScannerRequest request)
@@ -30,11 +32,11 @@ namespace Clark.ContentScanner
 
             string testedFile = request.URL.Trim('/') + "/lkfkjsalkalkln3nfioaoisf0090cvlklkvkllkalk";
             WebPageRequest webRequest = new WebPageRequest(testedFile);
-            WebPageLoader.Load(webRequest);
-            if (webRequest.Response.Code.Equals("200"))
-            {
-                return result;
-            }
+            //WebPageLoader.Load(webRequest);
+            //if (webRequest.Response.Code.Equals("200"))
+            //{
+            //    return result;
+            //}
 
 
             foreach (AttackFile attack in _knownAttackFiles)
@@ -63,6 +65,7 @@ namespace Clark.ContentScanner
                     }
                 }
             }
+
             result.Results.AddRange(returnList);
 
             return result;
@@ -74,21 +77,21 @@ namespace Clark.ContentScanner
 
             _knownAttackFiles.Add(new AttackFile()
             {
-                File = "/7/0/34/aeb617f1a7b102/curiosity-media.discovery.com/hogarth45.html",
-                Attacks = new List<string>() {},
+                File = "7/0/34/aeb617f1a7b102/curiosity-media.discovery.com/hogarth45.html",
+                Attacks = new List<string>() { },
                 FingerPrint = new List<string>() { "POC for Hogarth45" }
             });
 
             _knownAttackFiles.Add(new AttackFile()
             {
-                File = "/f/229/201/7d/home.peoplepc.com/psp/editlgf8s--%3E<img src%3da onerror%3dalert(1234)>vq0zz/email.asp",
+                File = "f/229/201/7d/home.peoplepc.com/psp/editlgf8s--%3E<img src%3da onerror%3dalert(1234)>vq0zz/email.asp",
                 Attacks = new List<string>() { },
-                FingerPrint = new List<string>() { "alert(1234)" }
+                FingerPrint = new List<string>() { "onerror=alert(1234)" }
             });
 
             _knownAttackFiles.Add(new AttackFile()
             {
-                File = "/f/465/1984/1d/www.ingentaconnect.com/content/jbp/intp/2010/00000012/00000001/art00002?tp=z%22%3E%3Csvg%20onload=window.onerror=n=confirm,n(1234)%3E%3C/svg%3Ebwgjq&a=directorio&d=0003300-2009-05-26.php",
+                File = "f/465/1984/1d/www.ingentaconnect.com/content/jbp/intp/2010/00000012/00000001/art00002?tp=z%22%3E%3Csvg%20onload=window.onerror=n=confirm,n(1234)%3E%3C/svg%3Ebwgjq&a=directorio&d=0003300-2009-05-26.php",
                 Attacks = new List<string>() { },
                 FingerPrint = new List<string>() { "n(1234)" }
             });
@@ -97,10 +100,25 @@ namespace Clark.ContentScanner
 
             _knownAttackFiles.Add(new AttackFile()
             {
-                File = "///bin///querybuilder.json.servlet;%0aa.css?path=/home&p.hits=full&p.limit=-1",
+                File = "//bin///querybuilder.json.servlet;%0aa.css?path=/home&p.hits=full&p.limit=-1",
                 Attacks = new List<string>() { },
                 FingerPrint = new List<string>() { "rep:AccessControllable" }
             });
+
+            _knownAttackFiles.Add(new AttackFile()
+            {
+                File = "server-status",
+                Attacks = new List<string>() { },
+                FingerPrint = new List<string>() { "Server Status for" }
+            });
+
+            _knownAttackFiles.Add(new AttackFile()
+            {
+                File = "cf_scripts/scripts/ajax/ckeditor/plugins/filemanager/upload.cfm",
+                Attacks = new List<string>() { },
+                FingerPrint = new List<string>() { "The web site you are accessing has experienced an unexpected error" }
+            });
+
 
             //_knownAttackFiles.Add(new AttackFile()
             //{

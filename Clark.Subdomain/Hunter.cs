@@ -83,11 +83,6 @@ namespace Clark.Subdomain
             List<string> subdomains = new List<string>();
 
             WebPageRequest request = new WebPageRequest();
-            //request.Method = "POST";
-            //request.Address = "https://api.securitytrails.com/v1/search/list";
-            //request.ContentType = "application/json";
-            //request.Headers.Add("APIKEY", "IqrDwrRNXp9mzI7pQyL5WplM2l60soBs");
-            //request.RequestBody = "{\"query\": \"apex_domain='" + domain + "'\"}";
             request.Address = "https://api.securitytrails.com/v1/domain/" + domain + "/subdomains";
             request.Headers.Add("APIKEY", apiKey);
             WebPageLoader.Load(request);

@@ -71,6 +71,13 @@ namespace Clark.ContentScanner
 
             _domainList.Add(new Fingerprint()
             {
+                Name = "IIS8",
+                Fingerprints = new List<string>() { "<title>Microsoft Internet Information Services 8</title>" },
+                Reference = ""
+            });
+
+            _domainList.Add(new Fingerprint()
+            {
                 Name = "JBoss",
                 Fingerprints = new List<string>() { "<title>Welcome to JBoss Application Server" },
                 Reference = ""
@@ -87,6 +94,41 @@ namespace Clark.ContentScanner
             {
                 Name = "Apache",
                 Fingerprints = new List<string>() { "<title>Apache HTTP Server Test Page" },
+                Reference = ""
+            });
+
+            _domainList.Add(new Fingerprint()
+            {
+                Name = "ngix on EPEL",
+                Fingerprints = new List<string>() { "Welcome to <strong>nginx</strong> on EPEL!" },
+                Reference = ""
+            });
+
+            _domainList.Add(new Fingerprint()
+            {
+                Name = "RedhatL",
+                Fingerprints = new List<string>() { "<title>Test Page for the Apache HTTP Server on Red Hat Enterprise Linux</title>" },
+                Reference = ""
+            });
+
+            _domainList.Add(new Fingerprint()
+            {
+                Name = "Apache",
+                Fingerprints = new List<string>() { "<title>Apache HTTP Server Test Page powered by CentOS</title>" },
+                Reference = ""
+            });
+
+            _domainList.Add(new Fingerprint()
+            {
+                Name = "Oracle iPlanet",
+                Fingerprints = new List<string>() { "<title>Oracle iPlanet Web Server" },
+                Reference = ""
+            });
+
+            _domainList.Add(new Fingerprint()
+            {
+                Name = "Sun Java",
+                Fingerprints = new List<string>() { "<title>Sun Java[TM] System Web Serve" },
                 Reference = ""
             });
         }

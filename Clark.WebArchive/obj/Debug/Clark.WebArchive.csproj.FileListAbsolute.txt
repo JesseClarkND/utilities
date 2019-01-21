@@ -6,3 +6,5 @@ C:\Users\hogarth45\Documents\Programming\utilities\Clark.WebArchive\bin\Debug\Cl
 C:\Users\hogarth45\Documents\Programming\utilities\Clark.WebArchive\obj\Debug\Clark.WebArchive.csprojResolveAssemblyReference.cache
 C:\Users\hogarth45\Documents\Programming\utilities\Clark.WebArchive\obj\Debug\Clark.WebArchiveCrawler.dll
 C:\Users\hogarth45\Documents\Programming\utilities\Clark.WebArchive\obj\Debug\Clark.WebArchiveCrawler.pdb
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.WebArchive\bin\Debug\Clark.Logger.dll
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.WebArchive\bin\Debug\Clark.Logger.pdb

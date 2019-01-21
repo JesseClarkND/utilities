@@ -30,6 +30,8 @@ namespace Clark.Common.Models
         public string Method = "GET";
         public string RequestBody = "";
         public string ContentType = "";
+        public bool Log = false;
+        public string LogDir = "";
 
         public WebPageResponse Response = new WebPageResponse();
     }

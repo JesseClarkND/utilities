@@ -1,4 +1,5 @@
 ﻿using Clark.Common.Models;
+using Clark.Logger;
 using HtmlAgilityPack;
 using System;
 using System.Collections.Generic;
@@ -29,11 +30,11 @@ namespace Clark.Common.Utility
                 {
                     if (ex.Message == "Trust Issue")
                     {
-                        webRequest.Address = DomainUtility.EnsureHTTPS(webRequest.Address);
-                        MakeRequest(webRequest);
+                      //  webRequest.Address = DomainUtility.EnsureHTTPS(webRequest.Address);
+                      //  MakeRequest(webRequest);
                     }
                     else
-                        throw;
+                        throw new Exception("HTTP not available.");
                 }
                 if (!String.IsNullOrEmpty(webRequest.Response.Body))
                 {
@@ -68,6 +69,7 @@ namespace Clark.Common.Utility
             }
             else
             {
+               // throw new Exception("You should never get here!!!!!!!!!!!!!!!!!!!");
                 string vanillaAddress = webRequest.Address;
                 webRequest.Address = "http://" + vanillaAddress;
                 MakeRequest(webRequest);
@@ -132,7 +134,28 @@ namespace Clark.Common.Utility
 
                 if (webRequest.Headers.Count != 0)
                 {
-                    request.Headers = webRequest.Headers;
+                    if (webRequest.Headers.AllKeys.Contains("Content-Type"))
+                    {
+                        request.ContentType = webRequest.Headers["Content-Type"];
+                        webRequest.Headers.Remove("Content-Type");
+                    }
+
+                    if (webRequest.Headers.AllKeys.Contains("Referer"))
+                    {
+                        request.Referer = webRequest.Headers["Referer"];
+                        webRequest.Headers.Remove("Referer");
+                    }
+
+                    List<string> nontransferableHeaders = new List<string>() { "Content-Type", "Referer"};
+                    //   request.Headers = webRequest.Headers; //Obliterates other headers like Content-Type
+                    foreach (var header in webRequest.Headers)
+                    {
+                        string headerKey = header.ToString();
+                        if(!nontransferableHeaders.Contains(headerKey))
+                            request.Headers.Add(headerKey, webRequest.Headers[headerKey]);
+                    }
+
+                
                 }
 
                 if (webRequest.ContentType.Length != 0)
@@ -150,6 +173,9 @@ namespace Clark.Common.Utility
                 }
                 
                 HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+
+                if (webRequest.Log)
+                    LogRequest(request, webRequest);
 
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
@@ -290,6 +316,41 @@ namespace Clark.Common.Utility
                 resolvedUrl = originalHost.Trim('/') + '/' + resolvedUrl.Trim('/');
 
             return resolvedUrl;
+        }
+
+        private static void LogRequest(HttpWebRequest request, WebPageRequest webRequest)
+        {
+                           List<string> nontransferableHeaders = new List<string>() { "Content-Type", "Referer"};
+            StringBuilder sb = new StringBuilder();
+
+            sb.Append(request.Method);
+            sb.Append(" ");
+            sb.Append(request.Address);
+            sb.Append(Environment.NewLine);
+            sb.Append("Content-Type: ");
+            sb.Append(request.ContentType);
+            sb.Append(Environment.NewLine);
+            sb.Append("Referer: ");
+            sb.Append(request.Referer);
+            sb.Append(Environment.NewLine);
+            for (int i = 0; i < request.Headers.Count; ++i)
+            {
+                string header = request.Headers.GetKey(i);
+                if (nontransferableHeaders.Contains(header))
+                    continue;
+                foreach (string value in request.Headers.GetValues(i))
+                {
+                    sb.Append(header);
+                    sb.Append(": ");
+                    sb.Append(value);
+                    sb.Append(Environment.NewLine);
+                }
+            }
+            sb.Append("Content-Length:");
+            sb.Append(request.ContentLength);
+            sb.Append(Environment.NewLine);
+            TextFileLogger.Log(webRequest.LogDir, "HTTPRequests-"+DateTime.Now.ToString("yyyy-MM-dd") + ".txt", DateTime.Now + Environment.NewLine + sb.ToString()); 
+
         }
     }
 }
