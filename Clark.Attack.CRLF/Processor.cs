@@ -10,10 +10,11 @@ using System.Threading.Tasks;
 
 namespace Clark.Attack.CRLF
 {
+    /// <summary>
+    /// Perform GET requests with known carriage return/line feed characters and check if headers are in the server response.
+    /// </summary>
     public class Processor : IAttack
     {
-
-
         public string Name = "CLRF";
 
         #region Private

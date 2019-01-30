@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 
 namespace Clark.Attack.ContentScanner
 {
+    /// <summary>
+    /// Compare a body of html against known fingerprints, find default server pages, service pages, etc
+    /// </summary>
     public class Processor : IAttack
     {
         public string Name = "Content Scanner";

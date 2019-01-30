@@ -11,6 +11,9 @@ using System.Threading.Tasks;
 
 namespace Clark.Attack.InformationLeak
 {
+    /// <summary>
+    /// Check files that are known for leaking info, phpinfo, htaccess, etc
+    /// </summary>
     public class Processor : IAttack
     {
         public string Name = "Information Leak";
