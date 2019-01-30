@@ -25,6 +25,15 @@ namespace Clark.Attack.InformationLeak
             new Leak()
             {
                 FileNames = new List<string>(){
+                    "server-status"
+                },
+                FingerPrints = new List<string>(){
+                    "Server Status for",
+                }
+            },
+            new Leak()
+            {
+                FileNames = new List<string>(){
                     "getphpinfo.php",
                     "phpinfo.php",
                     "info.php",
@@ -74,7 +83,7 @@ namespace Clark.Attack.InformationLeak
 
             foreach (var leak in _leaky)
             {
-
+                FindLeak(request.URL, leak, result);
             }
 
             return result;

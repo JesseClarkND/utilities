@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Clark.Attack.InformationLeak.Models
 {
-    public class Leak
+    internal class Leak
     {
         //There will be multiple filenames that match the same fp
         public List<string> FileNames = new List<string>();
