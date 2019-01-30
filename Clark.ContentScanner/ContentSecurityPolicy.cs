@@ -26,7 +26,8 @@ namespace Clark.ContentScanner
             "csp.yahoo.com",
             "js.driftt.com",
             "js.api.here.com",
-            "assets.adobetm.com"
+            "assets.adobetm.com",
+            "accounts-beta.huffingtonpost.com"
 
 
         };

@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{2D39D92A-8100-4AC3-BFCB-4DAC3FBE74EC}</ProjectGuid>
+    <ProjectGuid>{2D2D4220-BB8B-44A3-B8AD-4D27CB0D72CF}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Clark.Attack.Common</RootNamespace>
-    <AssemblyName>Clark.Attack.Common</AssemblyName>
+    <RootNamespace>Clark.Attack.Dependency</RootNamespace>
+    <AssemblyName>Clark.Attack.Dependency</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -39,9 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Interfaces\IAttack.cs" />
-    <Compile Include="Models\AttackRequest.cs" />
-    <Compile Include="Models\AttackResult.cs" />
+    <Compile Include="Class1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -9,6 +9,7 @@ namespace Clark.Attack.Common.Interfaces
 {
     public interface IAttack
     {
+        public string Name;
         public AttackResult Check(AttackRequest request);
 
        // private void Initilize();

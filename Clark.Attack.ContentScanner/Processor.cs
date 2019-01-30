@@ -11,6 +11,7 @@ namespace Clark.Attack.ContentScanner
 {
     public class Processor : IAttack
     {
+        public string Name = "Content Scanner";
         #region Private
         private static List<Fingerprint> _serviceFingerPrints = new List<Fingerprint>()
         {
@@ -228,11 +229,34 @@ namespace Clark.Attack.ContentScanner
         {
             var result = new AttackResult();
 
-            foreach (var fp in _defaultPageFingerPrints)
-                ;
-
+            CheckFingerprints(result, request.Body, _defaultPageFingerPrints, " - Default Page found");
+            CheckFingerprints(result, request.Body, _indexOfFingerPrints, " - Directory Traversal found");
+            CheckFingerprints(result, request.Body, _serviceFingerPrints, " - Service Page found");
+            CheckFingerprints(result, request.Body, _subDomainFingerPrints, " - Subdomain takeover found");
 
             return result;
+        }
+
+        private void CheckFingerprints(AttackResult result, string body, List<Fingerprint> fingerPrints, string message)
+        {
+            foreach (var fp in fingerPrints)
+            {
+                bool anyFingerPrintsConfirmed = false;
+                foreach (var fpString in fp.Fingerprints)
+                {
+                    if (body.Contains(fpString))
+                    {
+                        anyFingerPrintsConfirmed = true;
+                        break;
+                    }
+                }
+
+                if (anyFingerPrintsConfirmed)
+                {
+                    result.Success = true;
+                    result.Results.Add(fp.Name + " - Default Page found");
+                }
+            }
         }
 
         //public void Initilize()

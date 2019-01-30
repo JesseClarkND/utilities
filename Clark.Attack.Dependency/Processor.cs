@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Clark.Attack.Common
+namespace Clark.Attack.Dependency
 {
-    public class Class1
+    public class Processor
     {
     }
 }
