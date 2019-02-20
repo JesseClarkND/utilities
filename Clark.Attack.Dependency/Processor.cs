@@ -12,5 +12,6 @@ namespace Clark.Attack.Dependency
     /// </summary>
     public class Processor
     {
+        public string Name { get { return "Dependency Vulnerability"; } set { } }
     }
 }

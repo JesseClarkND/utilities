@@ -1,0 +1,4 @@
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Attack.Common\bin\Debug\Clark.Attack.Common.dll
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Attack.Common\bin\Debug\Clark.Attack.Common.pdb
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Attack.Common\obj\Debug\Clark.Attack.Common.dll
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Attack.Common\obj\Debug\Clark.Attack.Common.pdb

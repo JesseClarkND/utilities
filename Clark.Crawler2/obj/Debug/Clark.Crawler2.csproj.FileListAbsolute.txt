@@ -3,3 +3,4 @@ C:\Users\hogarth45\Documents\Programming\utilities\Clark.Crawler2\bin\Debug\Clar
 C:\Users\hogarth45\Documents\Programming\utilities\Clark.Crawler2\obj\Debug\Clark.Crawler2.csprojResolveAssemblyReference.cache
 C:\Users\hogarth45\Documents\Programming\utilities\Clark.Crawler2\obj\Debug\Clark.Crawler2.dll
 C:\Users\hogarth45\Documents\Programming\utilities\Clark.Crawler2\obj\Debug\Clark.Crawler2.pdb
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Crawler2\bin\Debug\HtmlAgilityPack.dll

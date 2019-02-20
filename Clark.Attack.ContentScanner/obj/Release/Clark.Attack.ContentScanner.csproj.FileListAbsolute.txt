@@ -1,0 +1,7 @@
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Attack.ContentScanner\bin\Release\Clark.Attack.ContentScanner.dll
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Attack.ContentScanner\bin\Release\Clark.Attack.ContentScanner.pdb
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Attack.ContentScanner\bin\Release\Clark.Attack.Common.dll
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Attack.ContentScanner\bin\Release\Clark.Attack.Common.pdb
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Attack.ContentScanner\obj\Release\Clark.Attack.ContentScanner.csprojResolveAssemblyReference.cache
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Attack.ContentScanner\obj\Release\Clark.Attack.ContentScanner.dll
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Attack.ContentScanner\obj\Release\Clark.Attack.ContentScanner.pdb

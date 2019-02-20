@@ -1,0 +1,12 @@
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Subdomain\bin\Release\Clark.Subdomain.dll
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Subdomain\bin\Release\Clark.Subdomain.pdb
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Subdomain\bin\Release\Clark.Common.dll
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Subdomain\bin\Release\HtmlAgilityPack.dll
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Subdomain\bin\Release\Newtonsoft.Json.dll
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Subdomain\bin\Release\Clark.Logger.dll
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Subdomain\bin\Release\Clark.Common.pdb
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Subdomain\bin\Release\Newtonsoft.Json.xml
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Subdomain\bin\Release\Clark.Logger.pdb
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Subdomain\obj\Release\Clark.Subdomain.csprojResolveAssemblyReference.cache
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Subdomain\obj\Release\Clark.Subdomain.dll
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Subdomain\obj\Release\Clark.Subdomain.pdb

@@ -1,0 +1,12 @@
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Attack.CSP\bin\Release\Clark.Attack.CSP.dll
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Attack.CSP\bin\Release\Clark.Attack.CSP.pdb
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Attack.CSP\bin\Release\Clark.Attack.Common.dll
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Attack.CSP\bin\Release\Clark.Common.dll
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Attack.CSP\bin\Release\HtmlAgilityPack.dll
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Attack.CSP\bin\Release\Clark.Logger.dll
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Attack.CSP\bin\Release\Clark.Attack.Common.pdb
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Attack.CSP\bin\Release\Clark.Common.pdb
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Attack.CSP\bin\Release\Clark.Logger.pdb
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Attack.CSP\obj\Release\Clark.Attack.CSP.csprojResolveAssemblyReference.cache
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Attack.CSP\obj\Release\Clark.Attack.CSP.dll
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Attack.CSP\obj\Release\Clark.Attack.CSP.pdb

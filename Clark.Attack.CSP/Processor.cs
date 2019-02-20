@@ -12,7 +12,7 @@ namespace Clark.Attack.CSP
 {
     public class Processor : IAttack
     {
-        public string Name = "Unclaimed CSP URL";
+        public string Name { get { return "Unclaimed CSP URL"; } set { } }
 
         #region Private
         private static List<string> Ignore = new List<string>()
@@ -21,21 +21,21 @@ namespace Clark.Attack.CSP
             "google.com",
             "mc.yandex.ru",
             "gstatic.com",
+            "www.gstatic.com",
             "pbs.twimg.com",
-            "https://pbs.twimg.com",
+            "pbs.twimg.com",
             "fonts.gstatic.com",
             "csp.yahoo.com",
             "allegroapi.io/seclog/csp;",
-            "https://allegroapi.io/seclog/csp;",
             "fonts.googleapis.com",
-            "https://fonts.googleapis.com",
             "js.stripe.com",
             "csp.yahoo.com",
             "js.driftt.com",
             "js.api.here.com",
             "assets.adobetm.com",
-            "accounts-beta.huffingtonpost.com"
-
+            "accounts-beta.huffingtonpost.com",
+            "csp.yahoo.com",
+            "tweakers.net"
 
         };
         #endregion
@@ -75,7 +75,7 @@ namespace Clark.Attack.CSP
 
                     if (validURL)
                     {
-                        if (Ignore.Contains(uriResult.ToString().Trim('/')))
+                        if (Ignore.Contains(uriResult.Host.ToString().Trim('/')))
                             continue;
 
                         WebPageRequest testRequest = new WebPageRequest(uriResult.ToString());
@@ -86,7 +86,7 @@ namespace Clark.Attack.CSP
                             if (!testRequest.Response.Code.Equals("403"))
                             {
                                 result.Success = true;
-                                result.Results.Add(uriResult.ToString());
+                                result.Results.Enqueue("CSP URL: " + uriResult.ToString());
                             }
                         }
                     }

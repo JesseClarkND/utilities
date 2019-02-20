@@ -1,0 +1,12 @@
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Attack.VulnerableFiles\bin\Release\Clark.Attack.VulnerableFiles.dll
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Attack.VulnerableFiles\bin\Release\Clark.Attack.VulnerableFiles.pdb
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Attack.VulnerableFiles\bin\Release\Clark.Attack.Common.dll
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Attack.VulnerableFiles\bin\Release\Clark.Common.dll
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Attack.VulnerableFiles\bin\Release\HtmlAgilityPack.dll
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Attack.VulnerableFiles\bin\Release\Clark.Logger.dll
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Attack.VulnerableFiles\bin\Release\Clark.Attack.Common.pdb
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Attack.VulnerableFiles\bin\Release\Clark.Common.pdb
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Attack.VulnerableFiles\bin\Release\Clark.Logger.pdb
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Attack.VulnerableFiles\obj\Release\Clark.Attack.VulnerableFiles.csprojResolveAssemblyReference.cache
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Attack.VulnerableFiles\obj\Release\Clark.Attack.VulnerableFiles.dll
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Attack.VulnerableFiles\obj\Release\Clark.Attack.VulnerableFiles.pdb

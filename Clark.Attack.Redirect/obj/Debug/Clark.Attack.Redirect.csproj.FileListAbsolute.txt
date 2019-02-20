@@ -1,0 +1,11 @@
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Attack.Redirect\bin\Debug\Clark.Attack.Redirect.dll
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Attack.Redirect\bin\Debug\Clark.Attack.Redirect.pdb
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Attack.Redirect\bin\Debug\Clark.Attack.Common.dll
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Attack.Redirect\bin\Debug\Clark.Common.dll
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Attack.Redirect\bin\Debug\HtmlAgilityPack.dll
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Attack.Redirect\bin\Debug\Clark.Logger.dll
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Attack.Redirect\bin\Debug\Clark.Attack.Common.pdb
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Attack.Redirect\bin\Debug\Clark.Common.pdb
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Attack.Redirect\bin\Debug\Clark.Logger.pdb
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Attack.Redirect\obj\Debug\Clark.Attack.Redirect.dll
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Attack.Redirect\obj\Debug\Clark.Attack.Redirect.pdb

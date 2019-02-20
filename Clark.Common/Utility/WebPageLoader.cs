@@ -119,13 +119,17 @@ namespace Clark.Common.Utility
                 //This line will ignore any cert errors
                 ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback(delegate { return true; });
 
-                ServicePointManager.Expect100Continue = true;
-                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls
-                       | SecurityProtocolType.Tls11
-                       | SecurityProtocolType.Tls12
-                       | SecurityProtocolType.Ssl3;
+                if(webRequest.Address.StartsWith("https")){
+                    ServicePointManager.Expect100Continue = true;
+                    ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls
+                           | SecurityProtocolType.Tls11
+                           | SecurityProtocolType.Tls12
+                           | SecurityProtocolType.Ssl3;
+                }
 
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create(webRequest.Address);
+                request.AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip;
+
                 if (webRequest.CookieJar.Count != 0)
                 {
                     request.CookieContainer = new CookieContainer();
@@ -171,7 +175,11 @@ namespace Clark.Common.Utility
                         stream.Write(data, 0, data.Length);
                     }
                 }
-                
+
+                request.UserAgent = "Mozilla/5.0 (Android 4.4; Mobile; rv:41.0) Gecko/41.0 Firefox/41.0; - hogarth45";
+
+                request.AllowAutoRedirect = webRequest.FollowRedirects;
+
                 HttpWebResponse response = (HttpWebResponse)request.GetResponse();
 
                 if (webRequest.Log)
@@ -263,8 +271,6 @@ namespace Clark.Common.Utility
             if (relativeUrl.StartsWith("http"))
                 return relativeUrl;
 
-
-
             bool tampered = false;
             Uri originatingUri = new Uri(originatingUrl);
             string originalHost = originatingUri.Scheme + "://" + originatingUri.Host;
@@ -320,7 +326,7 @@ namespace Clark.Common.Utility
 
         private static void LogRequest(HttpWebRequest request, WebPageRequest webRequest)
         {
-                           List<string> nontransferableHeaders = new List<string>() { "Content-Type", "Referer"};
+            List<string> nontransferableHeaders = new List<string>() { "Content-Type", "Referer"};
             StringBuilder sb = new StringBuilder();
 
             sb.Append(request.Method);

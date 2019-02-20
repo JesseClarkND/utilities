@@ -16,12 +16,40 @@ namespace Clark.Attack.InformationLeak
     /// </summary>
     public class Processor : IAttack
     {
-        public string Name = "Information Leak";
+        public string Name { get { return "Information Leak"; } set { } }
 
         #region Private
 
         private static List<Leak> _leaky = new List<Leak>()
         {
+            new Leak()
+            {//https://medium.com/@kedrisec/how-i-found-2-9-rce-at-yahoo-bug-bounty-program-20ab50dbfac7
+                FileNames = new List<string>(){
+                    "s3_adbox_setup",
+                    "q/s3_adbox_setup"
+                },
+                FingerPrints = new List<string>(){
+                    "New Message",
+                }
+            },
+            new Leak()
+            {//https://medium.com/bugbountywriteup/900-xss-in-yahoo-recon-wins-65ee6d4bfcbd
+                FileNames = new List<string>(){
+                    "about.php"
+                },
+                FingerPrints = new List<string>(){
+                    "WebPagetest is an open",
+                }
+            },
+            new Leak()
+            {
+                FileNames = new List<string>(){
+                    "Debug"
+                },
+                FingerPrints = new List<string>(){
+                    "Unisphere Management Server Debugging Facility", "CIMOM",
+                }
+            },
             new Leak()
             {
                 FileNames = new List<string>(){
@@ -68,6 +96,10 @@ namespace Clark.Attack.InformationLeak
             new Leak(){
                 FileNames = new List<string>(){
                     "web.xml",
+                    "WEB-INF/web.xml",
+                    "./WEB-INF/web.xml",
+                    ".//WEB-INF/web.xml",
+                    ".;/WEB-INF/web.xml"
                 },
                 FingerPrints = new List<string>(){
                     "<?xml version=",
@@ -99,7 +131,7 @@ namespace Clark.Attack.InformationLeak
                 if (Check_Contents(webRequest.Response.Body, leak.FingerPrints))
                 {
                     result.Success = true;
-                    result.Results.Add(testedFile);
+                    result.Results.Enqueue("Tested File: " + testedFile);
                     break;
                 }
             }

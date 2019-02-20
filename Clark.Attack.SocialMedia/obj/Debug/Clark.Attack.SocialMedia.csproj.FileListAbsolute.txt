@@ -1,0 +1,14 @@
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Attack.SocialMedia\obj\Debug\Clark.Attack.SocialMedia.csprojResolveAssemblyReference.cache
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Attack.SocialMedia\bin\Debug\Clark.Attack.SocialMedia.dll
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Attack.SocialMedia\bin\Debug\Clark.Attack.SocialMedia.pdb
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Attack.SocialMedia\bin\Debug\Clark.Attack.Common.dll
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Attack.SocialMedia\bin\Debug\Clark.Common.dll
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Attack.SocialMedia\bin\Debug\HtmlAgilityPack.dll
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Attack.SocialMedia\bin\Debug\Clark.Logger.dll
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Attack.SocialMedia\bin\Debug\Clark.Attack.Common.pdb
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Attack.SocialMedia\bin\Debug\Clark.Common.pdb
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Attack.SocialMedia\bin\Debug\HtmlAgilityPack.pdb
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Attack.SocialMedia\bin\Debug\HtmlAgilityPack.xml
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Attack.SocialMedia\bin\Debug\Clark.Logger.pdb
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Attack.SocialMedia\obj\Debug\Clark.Attack.SocialMedia.dll
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Attack.SocialMedia\obj\Debug\Clark.Attack.SocialMedia.pdb

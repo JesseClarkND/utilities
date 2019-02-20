@@ -1,0 +1,8 @@
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Common\bin\Release\Clark.Common.dll
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Common\bin\Release\Clark.Common.pdb
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Common\bin\Release\Clark.Logger.dll
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Common\bin\Release\HtmlAgilityPack.dll
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Common\bin\Release\Clark.Logger.pdb
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Common\obj\Release\Clark.Common.csprojResolveAssemblyReference.cache
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Common\obj\Release\Clark.Common.dll
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Common\obj\Release\Clark.Common.pdb

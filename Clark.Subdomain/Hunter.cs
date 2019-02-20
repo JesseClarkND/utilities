@@ -31,9 +31,11 @@ namespace Clark.Subdomain
                 subdomains = new List<string>();
 
             subdomains = Gather_FindSubdomains(request.Domain);
-            subdomains.AddRange(Gather_SecurityTrails(request.Domain, request.SecurityTrailsAPIKey));
+            if(!String.IsNullOrEmpty(request.SecurityTrailsAPIKey))
+                subdomains.AddRange(Gather_SecurityTrails(request.Domain, request.SecurityTrailsAPIKey));
             subdomains.AddRange(Gather_NetCraft(request.Domain));
-            subdomains.AddRange(Gather_VirusTotal(request.Domain, request.VirusTotalAPIKey));
+            if (!String.IsNullOrEmpty(request.VirusTotalAPIKey))
+                subdomains.AddRange(Gather_VirusTotal(request.Domain, request.VirusTotalAPIKey));
             subdomains.AddRange(Gather_ThreatCrowd(request.Domain));
 
             return subdomains.Distinct().ToList();
@@ -68,7 +70,7 @@ namespace Clark.Subdomain
 
             //https://dnsdumpster.com/static/xls/yahoo.com-201808290224.xlsx
             List<string> subdomains = new List<string>();
-
+            //todo:
             
             return subdomains;
         }

@@ -39,8 +39,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="Processor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Clark.Attack.Common\Clark.Attack.Common.csproj">
+      <Project>{2d39d92a-8100-4ac3-bfcb-4dac3fbe74ec}</Project>
+      <Name>Clark.Attack.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Clark.Common\Clark.Common.csproj">
+      <Project>{890e5d7c-bcde-48d7-ae97-7503b184735b}</Project>
+      <Name>Clark.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,0 +1,4 @@
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Logger\bin\Release\Clark.Logger.dll
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Logger\bin\Release\Clark.Logger.pdb
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Logger\obj\Release\Clark.Logger.dll
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Logger\obj\Release\Clark.Logger.pdb

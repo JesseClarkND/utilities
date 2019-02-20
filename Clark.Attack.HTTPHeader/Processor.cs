@@ -13,7 +13,7 @@ namespace Clark.Attack.HTTPHeader
 {
     public class Processor : IAttack
     {
-        public string Name = "HTTP Header";
+        public string Name { get { return "HTTP Header"; } set { } }
 
         #region Private
 
@@ -67,7 +67,7 @@ namespace Clark.Attack.HTTPHeader
                         if (attack.FingerPrintHeaders[headerFP] == webRequest.Response.Headers[headerFP])
                         {
                             sResult.Success = true;
-                            sResult.Results.Add(request.URL + " ::: Header=" + headerFP);
+                            sResult.Results.Enqueue("URL: " + request.URL + " ::: Header=" + headerFP);
                         }
                     }
                 }

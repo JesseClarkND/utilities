@@ -14,7 +14,7 @@ namespace Clark.Attack.SocialMedia
 {
     public class Processor : IAttack
     {
-        public string Name = "Dormant Social Media";
+        public string Name { get { return "Dormant Social Media"; } set { } }
 
         #region Private
         private static List<DomainData> _socialDomains = new List<DomainData>()
@@ -63,7 +63,8 @@ namespace Clark.Attack.SocialMedia
                 }
             }
 
-            result.Results.AddRange(linksFound);
+            linksFound.ForEach(x => result.Results.Enqueue(x));
+            //result.Results.AddRange(linksFound);
 
             return result;
         }

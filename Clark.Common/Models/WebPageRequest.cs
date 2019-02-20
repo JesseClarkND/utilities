@@ -32,6 +32,7 @@ namespace Clark.Common.Models
         public string ContentType = "";
         public bool Log = false;
         public string LogDir = "";
+        public bool FollowRedirects = true;
 
         public WebPageResponse Response = new WebPageResponse();
     }

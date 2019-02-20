@@ -1,0 +1,12 @@
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Attack.SSRF\Clark.Attack.SSRF\bin\Debug\Clark.Attack.SSRF.dll
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Attack.SSRF\Clark.Attack.SSRF\bin\Debug\Clark.Attack.SSRF.pdb
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Attack.SSRF\Clark.Attack.SSRF\bin\Debug\Clark.Attack.Common.dll
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Attack.SSRF\Clark.Attack.SSRF\bin\Debug\Clark.Common.dll
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Attack.SSRF\Clark.Attack.SSRF\bin\Debug\HtmlAgilityPack.dll
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Attack.SSRF\Clark.Attack.SSRF\bin\Debug\Clark.Logger.dll
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Attack.SSRF\Clark.Attack.SSRF\bin\Debug\Clark.Attack.Common.pdb
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Attack.SSRF\Clark.Attack.SSRF\bin\Debug\Clark.Common.pdb
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Attack.SSRF\Clark.Attack.SSRF\bin\Debug\Clark.Logger.pdb
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Attack.SSRF\Clark.Attack.SSRF\obj\Debug\Clark.Attack.SSRF.csprojResolveAssemblyReference.cache
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Attack.SSRF\Clark.Attack.SSRF\obj\Debug\Clark.Attack.SSRF.dll
+C:\Users\hogarth45\Documents\Programming\utilities\Clark.Attack.SSRF\Clark.Attack.SSRF\obj\Debug\Clark.Attack.SSRF.pdb
